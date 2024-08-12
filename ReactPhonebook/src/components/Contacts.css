@@ -1,0 +1,14 @@
+.contact-search-input-and-sort-btn-container{
+    display: flex;
+    /* flex-direction: column; */
+    width: fit-content;
+}
+.block {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .faviourate {
+    background-color: #d4edda;
+    color: #155724;
+  }
