@@ -13,8 +13,7 @@ function App() {
 	const [showForm, setShowForm] = useState(false);
 
 	useEffect(() => {
-		axios
-			.get("http://localhost:3007/api/contacts")
+		axios.get("/api/contacts")
 			.then((response) => {
 				console.log("obtianed response", response);
 				setContacts(response.data);
@@ -40,9 +39,7 @@ function App() {
       block: false,
     };
     try {
-      const existingContactResponse = await axios.get(
-        "http://localhost:3007/api/contacts"
-      );
+      const existingContactResponse = await  axios.get("/api/contacts");
       console.log("existingContactResponse", existingContactResponse);
       const existingContactsEntries = existingContactResponse.data;
       const contactExists = existingContactsEntries.some(
@@ -52,7 +49,7 @@ function App() {
         alert("Contact already exists!");
       } else {
         const response = await axios.post(
-          "http://localhost:3007/api/contacts",
+          "/api/contacts",
           newContact
         );
         console.log("response posted", response);
@@ -89,7 +86,7 @@ function App() {
 
   const markAsFaviourate = (id) => {
     axios
-      .patch(`http://localhost:3007/api/contacts/${id}`, { faviourate: true })
+      .patch(`/api/contacts/${id}`, { faviourate: true })
       .then((response) => {
         const updatedContacts = contacts.map((contact) =>
           contact.id === id ? { ...contact, faviourate: true } : contact
@@ -108,7 +105,7 @@ function App() {
 		// );
 		// setContacts(updatedContacts);
 		axios
-			.patch(`http://localhost:3007/api/contacts/${id}`, { block: true })
+			.patch(`/api/contacts/${id}`, { block: true })
 			.then((response) => {
 				const updatedContacts = contacts.map((contact) =>
 					contact.id === id ? { ...contact, block: true } : contact
@@ -132,7 +129,7 @@ function App() {
 		);
 		if (confirmation) {
 			axios
-				.delete(`http://localhost:3007/api/contacts/${id}`)
+				.delete(`/api/contacts/${id}`)
 				.then((response) => {
 					const updatedContacts = contacts.filter(
 						(contact) => contact.id !== id
@@ -152,7 +149,7 @@ function App() {
 		// );
 		// setContacts(updatedContacts);
 		axios
-			.patch(`http://localhost:3007/api/contacts/${id}`, { block: false })
+			.patch(`/api/contacts/${id}`, { block: false })
 			.then((response) => {
 				const updatedContacts = contacts.map((contact) =>
 					contact.id === id ? { ...contact, block: false } : contact
@@ -171,7 +168,7 @@ function App() {
 		// );
 		// setContacts(updatedContacts);
 		axios
-			.patch(`http://localhost:3007/api/contacts/${id}`, { faviourate: false })
+			.patch(`/api/contacts/${id}`, { faviourate: false })
 			.then((response) => {
 				const updatedContacts = contacts.map((contact) =>
 					contact.id === id ? { ...contact, faviourate: false } : contact

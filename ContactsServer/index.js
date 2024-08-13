@@ -5,6 +5,8 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
+app.use(express.static('dist'))
+
 
 let contacts=[
     {
@@ -29,6 +31,8 @@ let contacts=[
         block:false
     }
 ];
+
+
 
 app.get("/contacts",(req,res)=>{
     res.send("<h1>Welcome to Contacts Server</h1>");
@@ -90,6 +94,7 @@ app.patch('/api/contacts/:id',(req,res)=>{
     }
 })
 
-const PORT = 3007
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
