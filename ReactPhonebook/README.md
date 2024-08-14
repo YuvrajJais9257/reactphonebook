@@ -13,7 +13,7 @@ A modern phonebook app built with React and Vite. This app allows you to add, ed
 
 ## Demo
 ![Notes App Screenshot](Images/Screenshot%202024-08-01%20113904.png)
-Here [Try Our App](https://phonebook-react-yuvraj-9257.netlify.app/)
+Here [Try Our App](https://reactphonebook.vercel.app/)
 ## Installation
 
 To get started with the project, follow these steps:
