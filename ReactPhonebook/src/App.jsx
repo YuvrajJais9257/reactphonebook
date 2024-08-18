@@ -11,7 +11,7 @@ function App() {
   const [contactName, setContactName] = useState("");
   const [mobileNum, setMobileNum] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const baseUrl = "http://localhost:3001/api";
+  const baseUrl = "https://reactphonebook.onrender.com/api";
 
   console.log("baseUrl", `${baseUrl}/contacts`);
 
