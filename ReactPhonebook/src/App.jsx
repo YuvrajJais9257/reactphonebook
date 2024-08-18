@@ -7,23 +7,27 @@ import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 
 function App() {
-	const [contacts, setContacts] = useState([]);
-	const [contactName, setContactName] = useState("");
-	const [mobileNum, setMobileNum] = useState("");
-	const [showForm, setShowForm] = useState(false);
-	const baseUrl="https://reactphonebook.onrender.com";
+  const [contacts, setContacts] = useState([]);
+  const [contactName, setContactName] = useState("");
+  const [mobileNum, setMobileNum] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const baseUrl = "http://localhost:3001/api";
 
-	useEffect(() => {
-		axios
-			.get(`${baseUrl}/api/contacts`)
-			.then((response) => {
-				console.log("obtianed response", response);
-				setContacts(response.data);
-			})
-			.catch((error) => {
-				alert("There was an error fetching the contacts!", error);
-			});
-	}, []);
+  console.log("baseUrl", `${baseUrl}/contacts`);
+
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/contacts`)
+      .then((response) => {
+        console.log("obtianed response", response);
+        setContacts(response.data);
+      })
+      .catch((error) => {
+        alert("There was an error fetching the contacts!", error);
+      });
+  }, []);
+
+  console.log("contactsFetched", contacts);
 
   const handleAddContact = async (e) => {
     e.preventDefault();
@@ -41,7 +45,7 @@ function App() {
       block: false,
     };
     try {
-      const existingContactResponse = await axios.get(`${baseUrl}/api/contacts`);
+      const existingContactResponse = await axios.get(`${baseUrl}/contacts`);
       console.log("existingContactResponse", existingContactResponse);
       const existingContactsEntries = existingContactResponse.data;
       const contactExists = existingContactsEntries.some(
@@ -50,7 +54,7 @@ function App() {
       if (contactExists) {
         alert("Contact already exists!");
       } else {
-        const response = await axios.post(`${baseUrl}/api/contacts`, newContact);
+        const response = await axios.post(`${baseUrl}/contacts`, newContact);
         console.log("response posted", response);
         setContacts(contacts.concat(response.data));
         setShowForm(false);
@@ -62,33 +66,32 @@ function App() {
       console.error("Error details:", error);
     }
   };
-  
 
-	// const markAsFaviourate = (id) => {
-	// 	// const updatedContacts = contacts.map((contact, index) =>
-	// 	// 	index === id ? { ...contact, faviourate: true } : contact
-	// 	// );
-	// 	// setContacts(updatedContacts);
-	// 	axios
-	// 		.patch(`http://localhost:3007/api/contacts/${id}`, { faviourate: true })
-	// 		.then((response) => {
-	// 			const updatedContacts = contacts.map((contact) =>
-	// 				contact.id === id ? { ...contact, faviourate: true } : contact
-	// 			);
-	// 			setContacts(updatedContacts);
-	// 		})
-	// 		.catch((error) => {
-	// 			alert("There was an error marking the contact as faviourate!");
-	// 			console.error("Error details:", error);
-	// 		});
-	// };
+  // const markAsFaviourate = (id) => {
+  // 	// const updatedContacts = contacts.map((contact, index) =>
+  // 	// 	index === id ? { ...contact, faviourate: true } : contact
+  // 	// );
+  // 	// setContacts(updatedContacts);
+  // 	axios
+  // 		.patch(`http://localhost:3007/api/contacts/${id}`, { faviourate: true })
+  // 		.then((response) => {
+  // 			const updatedContacts = contacts.map((contact) =>
+  // 				contact.id === id ? { ...contact, faviourate: true } : contact
+  // 			);
+  // 			setContacts(updatedContacts);
+  // 		})
+  // 		.catch((error) => {
+  // 			alert("There was an error marking the contact as faviourate!");
+  // 			console.error("Error details:", error);
+  // 		});
+  // };
 
   const markAsFaviourate = (id) => {
     axios
-      .patch(`${baseUrl}/api/contacts/${id}`, { faviourate: true })
+      .patch(`${baseUrl}/contacts/${id}`, { faviourate: true })
       .then((response) => {
         const updatedContacts = contacts.map((contact) =>
-          contact.id === id ? { ...contact, faviourate: true } : contact
+          contact._id === id ? { ...contact, faviourate: true } : contact
         );
         setContacts(updatedContacts);
       })
@@ -97,170 +100,170 @@ function App() {
         console.error("Error details:", error);
       });
   };
-  
-	const blockNumber = (id) => {
-		// const updatedContacts = contacts.map((contact, index) =>
-		// 	index === id ? { ...contact, block: true } : contact
-		// );
-		// setContacts(updatedContacts);
-		axios
-			.patch(`${baseUrl}/api/contacts/${id}`, { block: true })
-			.then((response) => {
-				const updatedContacts = contacts.map((contact) =>
-					contact.id === id ? { ...contact, block: true } : contact
-				);
-				setContacts(updatedContacts);
-			})
-			.catch((error) => {
-				alert("There was an error blocking the contact!");
-				console.error("Error details:", error);
-			});
-	};
 
-	const deleteNumber = (id) => {
-		// const deleteAlert = window.confirm("Are you sure you want to delete it?");
-		// if (deleteAlert) {
-		// 	const updatedContacts = contacts.filter((_, index) => index !== id);
-		// 	setContacts(updatedContacts);
-		// }
-		const confirmation = window.confirm(
-			"Are you sure you want to delete this contact?"
-		);
-		if (confirmation) {
-			axios
-				.delete(`${baseUrl}/api/contacts/${id}`)
-				.then((response) => {
-					const updatedContacts = contacts.filter(
-						(contact) => contact.id !== id
-					);
-					setContacts(updatedContacts);
-				})
-				.catch((error) => {
-					alert("There was an error deleting the contact!");
-					console.error("Error details:", error);
-				});
-		}
-	};
+  const blockNumber = (id) => {
+    // const updatedContacts = contacts.map((contact, index) =>
+    // 	index === id ? { ...contact, block: true } : contact
+    // );
+    // setContacts(updatedContacts);
+    axios
+      .patch(`${baseUrl}/contacts/${id}`, { block: true })
+      .then((response) => {
+        const updatedContacts = contacts.map((contact) =>
+          contact._id === id ? { ...contact, block: true } : contact
+        );
+        setContacts(updatedContacts);
+      })
+      .catch((error) => {
+        alert("There was an error blocking the contact!");
+        console.error("Error details:", error);
+      });
+  };
 
-	const unblockNumber = (id) => {
-		// const updatedContacts = contacts.map((contact, index) =>
-		// 	index === id ? { ...contact, block: false } : contact
-		// );
-		// setContacts(updatedContacts);
-		axios
-			.patch(`${baseUrl}/api/contacts/${id}`, { block: false })
-			.then((response) => {
-				const updatedContacts = contacts.map((contact) =>
-					contact.id === id ? { ...contact, block: false } : contact
-				);
-				setContacts(updatedContacts);
-			})
-			.catch((error) => {
-				alert("There was an error unblocking the contact!");
-				console.error("Error details:", error);
-			});
-	};
+  const deleteNumber = (id) => {
+    // const deleteAlert = window.confirm("Are you sure you want to delete it?");
+    // if (deleteAlert) {
+    // 	const updatedContacts = contacts.filter((_, index) => index !== id);
+    // 	setContacts(updatedContacts);
+    // }
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this contact?"
+    );
+    if (confirmation) {
+      axios
+        .delete(`${baseUrl}/contacts/${id}`)
+        .then((response) => {
+          const updatedContacts = contacts.filter(
+            (contact) => contact._id !== id
+          );
+          setContacts(updatedContacts);
+        })
+        .catch((error) => {
+          alert("There was an error deleting the contact!");
+          console.error("Error details:", error);
+        });
+    }
+  };
 
-	const unmarkAsFaviourate = (id) => {
-		// const updatedContacts = contacts.map((contact, index) =>
-		// 	index === id ? { ...contact, faviourate: false } : contact
-		// );
-		// setContacts(updatedContacts);
-		axios
-			.patch(`${baseUrl}/api/contacts/${id}`, { faviourate: false })
-			.then((response) => {
-				const updatedContacts = contacts.map((contact) =>
-					contact.id === id ? { ...contact, faviourate: false } : contact
-				);
-				setContacts(updatedContacts);
-			})
-			.catch((error) => {
-				alert("There was an error removing the contact from faviourates!");
-				console.error("Error details:", error);
-			});
-	};
+  const unblockNumber = (id) => {
+    // const updatedContacts = contacts.map((contact, index) =>
+    // 	index === id ? { ...contact, block: false } : contact
+    // );
+    // setContacts(updatedContacts);
+    axios
+      .patch(`${baseUrl}/contacts/${id}`, { block: false })
+      .then((response) => {
+        const updatedContacts = contacts.map((contact) =>
+          contact._id === id ? { ...contact, block: false } : contact
+        );
+        setContacts(updatedContacts);
+      })
+      .catch((error) => {
+        alert("There was an error unblocking the contact!");
+        console.error("Error details:", error);
+      });
+  };
 
-	// console.log("contacts", contacts);
+  const unmarkAsFaviourate = (id) => {
+    // const updatedContacts = contacts.map((contact, index) =>
+    // 	index === id ? { ...contact, faviourate: false } : contact
+    // );
+    // setContacts(updatedContacts);
+    axios
+      .patch(`${baseUrl}/contacts/${id}`, { faviourate: false })
+      .then((response) => {
+        const updatedContacts = contacts.map((contact) =>
+          contact._id === id ? { ...contact, faviourate: false } : contact
+        );
+        setContacts(updatedContacts);
+      })
+      .catch((error) => {
+        alert("There was an error removing the contact from faviourates!");
+        console.error("Error details:", error);
+      });
+  };
 
-	return (
-		<div
-			style={{
-				display: "flex",
-				justifyContent: "center",
-				flexDirection: "column",
-				alignItems: "center",
-			}}
-			className="contacts-super-container"
-		>
-			{contacts.length > 0 ? (
-				<div className="contacts-container">
-					<Contacts
-						contacts={contacts}
-						markAsFaviourate={markAsFaviourate}
-						blockNumber={blockNumber}
-						deleteNumber={deleteNumber}
-						unblockNumber={unblockNumber}
-						unmarkAsFaviourate={unmarkAsFaviourate}
-					/>
-					<Button
-						style={{ marginTop: "12px" }}
-						variant="primary"
-						onClick={() => setShowForm(true)}
-					>
-						Create Contact
-					</Button>
-				</div>
-			) : (
-				<div className="contacts-container">
-					<Button variant="primary" onClick={() => setShowForm(true)}>
-						Create Contact
-					</Button>
-				</div>
-			)}
-			{showForm && (
-				<div
-					className="form-container"
-					style={{
-						backgroundColor: "#f5f5f5",
-						padding: "25px",
-						borderRadius: "5px",
-					}}
-				>
-					<Form onSubmit={handleAddContact}>
-						<label style={{ fontWeight: "bold" }}>Name</label>
-						<input
-							style={{
-								backgroundColor: "#ddd",
-								color: "#000",
-								fontWeight: "bold",
-							}}
-							type="text"
-							required
-							value={contactName}
-							onChange={(e) => setContactName(e.target.value)}
-							placeholder="Enter Name"
-						/>
-						<label style={{ fontWeight: "bold" }}>Mobile</label>
-						<input
-							style={{
-								backgroundColor: "#ddd",
-								color: "#000",
-								fontWeight: "bold",
-							}}
-							type="text"
-							required
-							value={mobileNum}
-							onChange={(e) => setMobileNum(e.target.value)}
-							placeholder="Enter Number"
-						/>
-						<Button style={{ marginTop: "25px" }} type="submit">
-							Add Contact
-						</Button>
-					</Form>
-				</div>
-			)}
-		</div>
-	);
+  // console.log("contacts", contacts);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+      className="contacts-super-container"
+    >
+      {contacts.length > 0 ? (
+        <div className="contacts-container">
+          <Contacts
+            contacts={contacts}
+            markAsFaviourate={markAsFaviourate}
+            blockNumber={blockNumber}
+            deleteNumber={deleteNumber}
+            unblockNumber={unblockNumber}
+            unmarkAsFaviourate={unmarkAsFaviourate}
+          />
+          <Button
+            style={{ marginTop: "12px" }}
+            variant="primary"
+            onClick={() => setShowForm(true)}
+          >
+            Create Contact
+          </Button>
+        </div>
+      ) : (
+        <div className="contacts-container">
+          <Button variant="primary" onClick={() => setShowForm(true)}>
+            Create Contact
+          </Button>
+        </div>
+      )}
+      {showForm && (
+        <div
+          className="form-container"
+          style={{
+            backgroundColor: "#f5f5f5",
+            padding: "25px",
+            borderRadius: "5px",
+          }}
+        >
+          <Form onSubmit={handleAddContact}>
+            <label style={{ fontWeight: "bold" }}>Name</label>
+            <input
+              style={{
+                backgroundColor: "#ddd",
+                color: "#000",
+                fontWeight: "bold",
+              }}
+              type="text"
+              required
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
+              placeholder="Enter Name"
+            />
+            <label style={{ fontWeight: "bold" }}>Mobile</label>
+            <input
+              style={{
+                backgroundColor: "#ddd",
+                color: "#000",
+                fontWeight: "bold",
+              }}
+              type="text"
+              required
+              value={mobileNum}
+              onChange={(e) => setMobileNum(e.target.value)}
+              placeholder="Enter Number"
+            />
+            <Button style={{ marginTop: "25px" }} type="submit">
+              Add Contact
+            </Button>
+          </Form>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;

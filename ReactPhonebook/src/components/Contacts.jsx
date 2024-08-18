@@ -86,11 +86,19 @@ const Contacts = ({
               className="block-btn"
               variant="dark"
               // onClick={() => blockNumber(index)}
-              onClick={()=>(contact.block ? unblockNumber(contact.id) : blockNumber(contact.id))}
+              onClick={() =>
+                contact.block
+                  ? unblockNumber(contact._id)
+                  : blockNumber(contact._id)
+              }
             >
               <img
                 // src="https://cdn-icons-png.flaticon.com/128/2550/2550431.png"
-                src={contact.block ?   "https://cdn-icons-png.flaticon.com/128/3076/3076198.png": "https://cdn-icons-png.flaticon.com/128/2550/2550431.png"}
+                src={
+                  contact.block
+                    ? "https://cdn-icons-png.flaticon.com/128/3076/3076198.png"
+                    : "https://cdn-icons-png.flaticon.com/128/2550/2550431.png"
+                }
                 width="30px"
                 height="24px"
                 alt="block-icon"
@@ -102,11 +110,19 @@ const Contacts = ({
               className="faviourate-btn"
               variant="dark"
               // onClick={() => markAsFaviourate(index)}
-              onClick={()=>(contact.faviourate ? unmarkAsFaviourate(contact.id) : markAsFaviourate(contact.id))}
+              onClick={() =>
+                contact.faviourate
+                  ? unmarkAsFaviourate(contact._id)
+                  : markAsFaviourate(contact._id)
+              }
             >
               <img
                 // src="https://cdn-icons-png.flaticon.com/128/1040/1040230.png"
-                src={contact.faviourate ?"https://cdn-icons-png.flaticon.com/128/13906/13906281.png":"https://cdn-icons-png.flaticon.com/128/1040/1040230.png"}
+                src={
+                  contact.faviourate
+                    ? "https://cdn-icons-png.flaticon.com/128/13906/13906281.png"
+                    : "https://cdn-icons-png.flaticon.com/128/1040/1040230.png"
+                }
                 width="30px"
                 height="24px"
                 alt="faviourate"
@@ -117,7 +133,7 @@ const Contacts = ({
               style={{ marginRight: "10px" }}
               className="delete-btn"
               variant="dark"
-              onClick={() => deleteNumber(contact.id)}
+              onClick={() => deleteNumber(contact._id)}
             >
               <img
                 src="https://cdn-icons-png.flaticon.com/128/6711/6711573.png"
